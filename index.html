@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<!--by sultan khalid-->
+<head>
+<title>form validate</title>
+<meta dir="ltr" charset="utf-8">
+<meta  name="description" content="check validation of form elements">
+<link href="style.css"  rel="stylesheet" type="text/css">
+	
+</head>
+
+<body>
+	
+	<form   id="form1" action="#" onsubmit="return CheckFormInput()" >
+	<label>birthdate:</label>
+     <br>
+	<div id="co1">
+	<div class="d1">
+	<label for="monthtext">month</label>
+	<input id="monthtext" type="text"  maxlength="2"   value="01" pattern="[0-9]{2}"   onkeypress="Func1()" required >
+		</div>
+	<div class="d1">
+	<label for="daytext">day</label>	
+	<input id="daytext" type="text"  pattern="[0-9]{2}"  maxlength="2" value="01"  onkeypress="Func2()"  required>
+	   </div>
+	<div class="d1">
+    <label for="yeartext">year</label>
+    <input id="yeartext" type="text" pattern="[0-9]{4}"  maxlength="4" value="1997"  onkeypress="Func3()" required>
+     </div>
+          </div>
+    <br>
+    <label>Add image:</label>
+	<input  id="p_img" type="file"   accept="image/jpg"  name="image"    required  > 
+     <br>
+	<input  type="submit" value="إرسال">
+        <p id="error_message"></p>
+	</form>	
+	
+    
+    
+	<script>
+    
+function Func1(){
+       
+		if(event.keyCode<48||event.keyCode>57||(document.getElementById("monthtext").value + (event.keyCode%48)>12)){
+      event.returnValue=false;		}
+		
+		
+	}
+function Func2(){
+	
+	if(event.keyCode<48||event.keyCode>57||(document.getElementById("daytext").value + (event.keyCode%48)>31)){
+      event.returnValue=false;		}
+	
+
+}
+function Func3(){
+	
+	if(event.keyCode<48||event.keyCode>57){
+      event.returnValue=false;		}
+			
+		}
+        
+function CheckFormInput() {
+     
+var year = document.forms["form1"]["yeartext"].value;
+ var month = document.forms["form1"]["monthtext"].value;
+ var day = document.forms["form1"]["daytext"].value;
+ var chechphoto=document.getElementById("p_img");
+   
+  if (Number(year)<1972||Number(year)>2023) {
+    document.getElementById("yeartext").focus();
+//      document.getElementById("error_message").innerHTML="is not correct year";
+	  alert("is not correct year");
+    return false;
+  }
+	if (Number(month)<1 ||Number(month)>12) {
+    document.getElementById("monthtext").focus();
+		
+    return false;
+  }
+	if (Number(day)<1 ||Number(day)>31) {
+    document.getElementById("monthtext").focus();
+    return false;
+  }
+	//قارئ للملف
+ var reader=new FileReader();
+    reader.readAsDataURL(chechphoto.files[0]);
+    
+    reader.onload=function(e){
+        //متغير يحتوي الصورة
+        var image=new Image();
+        image.src=e.target.result;
+        //الحدث onload يحدث اثناء العملية الحالية 
+        image.onload=function(){
+            
+            var height=this.height;
+            var width=this.width;
+            
+            if(height>600||width>600 ||height<600||width<600){
+                // document.getElementById("error_message").innerHTML="must choose 600*600 image size";
+               alert("must choose 600*600 image size");
+                return false;
+            }
+            else{
+                alert("success")
+                return true;
+            }
+                
+     
+                
+        }
+        
+    }
+    		
+
+}	
+	
+	
+	</script>
+
+</body>
+</html>
